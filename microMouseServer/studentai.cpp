@@ -292,14 +292,13 @@ void microMouseServer::studentAI() {
 
 
     //set the mouse to the position behind it. When the position behind the mouse is equal to the position the mouse is in set the position of the mouse to behind it plus one.
-    //if(!(Infront(-1) == Back(-1))){
+    if(!(Infront(-1) == Back(-1))){
         array1[::x][::y] = Back(-1);
-    //}
-    /*else {
+    }
+    else {
         array1[::x][::y] = Back(-1) + 1;
     }
-    */
-printUI(std::to_string(array1[::x][::y]).c_str());
+
 
     //Find the end of the maze.
 }
