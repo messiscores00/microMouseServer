@@ -166,7 +166,7 @@ void microMouseServer::studentAI() {
     if(::Setarray==false){//if the array is already set do nothing
         for(int i = 0; i < ARRAY_LENGTH; i += 1){
             for(int a = 0; a < ARRAY_LENGTH; a += 1){
-                array1 [i][a]=-1;
+                array1[i][a]=-1;
             }
         }
         ::Setarray = true;
@@ -292,13 +292,14 @@ void microMouseServer::studentAI() {
 
 
     //set the mouse to the position behind it. When the position behind the mouse is equal to the position the mouse is in set the position of the mouse to behind it plus one.
-    if(!(array1[::x][::y] == Back(-1))){
-        aray1[::x][::y]=Back(-1);
-    }
-    else {
+    //if(!(Infront(-1) == Back(-1))){
+        array1[::x][::y] = Back(-1);
+    //}
+    /*else {
         array1[::x][::y] = Back(-1) + 1;
     }
-
+    */
+printUI(std::to_string(array1[::x][::y]).c_str());
 
     //Find the end of the maze.
 }
