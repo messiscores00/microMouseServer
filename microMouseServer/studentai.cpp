@@ -64,7 +64,7 @@ int Infront (int newPos){
         if(newPos == -1)
             Pos = array1[::x][::y-1];
         else
-            Pos = array1[::x+1][::y-1] = newPos;
+            Pos = array1[::x][::y-1] = newPos;
     }
     return Pos;
 }
@@ -200,7 +200,9 @@ void microMouseServer::studentAI() {
         }
     }
 
-
+printUI(std::to_string(Infront(-1)).c_str());
+//printUI(std::to_string(Right(-1)).c_str());
+//printUI(std::to_string(Left(-1)).c_str());
     //Left Hand rule+right
     if(!isWallLeft()&&((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
         turnLeft();
