@@ -203,6 +203,7 @@ void microMouseServer::studentAI() {
 printUI(std::to_string(Infront(-1)).c_str());
 //printUI(std::to_string(Right(-1)).c_str());
 //printUI(std::to_string(Left(-1)).c_str());
+
     //Left Hand rule+right
     if(!isWallLeft()&&((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
         turnLeft();
@@ -234,13 +235,13 @@ printUI(std::to_string(Infront(-1)).c_str());
             ::y = ::y + 1;
         }
         else  if(::orientation == RIGHT){
-            ::x = ::x +1;
+            ::x = ::x + 1;
         }
         else  if(::orientation == BACK){
             ::y = ::y - 1;
         }
         else    if(::orientation == LEFT){
-            ::x = ::x -1;
+            ::x = ::x - 1;
         }
     }
 
