@@ -1,8 +1,7 @@
-//This is an edit to my code.
 #include "micromouseserver.h"
-#include <iostream>
-#include <string>
-using namespace std;
+//#include <iostream>
+//#include <string>
+//using namespace std;
 #define ARRAY_LENGTH 20
 #define LEFT 0
 #define RIGHT 2
@@ -179,7 +178,7 @@ void microMouseServer::studentAI() {
         mouseto1 = true;
     }
 
-
+/*
     //make everything around the mouse to 0 if it is -1 and if space is there
     //infront
     if(!isWallForward()){
@@ -200,12 +199,14 @@ void microMouseServer::studentAI() {
         }
     }
 
-printUI(std::to_string(Infront(-1)).c_str());
-//printUI(std::to_string(Right(-1)).c_str());
-//printUI(std::to_string(Left(-1)).c_str());
+*/
+    printUI(std::to_string(Infront(-1)).c_str());
+    //printUI(std::to_string(Right(-1)).c_str());
+    //printUI(std::to_string(Left(-1)).c_str());
+
 
     //Left Hand rule+right
-    if(!isWallLeft()&&((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
+    if((!isWallLeft())&&((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
         turnLeft();
         moveForward();
 
@@ -228,7 +229,7 @@ printUI(std::to_string(Infront(-1)).c_str());
     }
 
 
-    else if (!isWallForward()&&((Infront(-1)<=Right(-1))||(Infront(-1)==0))){//if there is a space infront
+    else if ((!isWallForward())&&((Infront(-1)<=Right(-1))||(Infront(-1)==0))){//if there is a space infront
         moveForward();
 
         if(::orientation == FORWARD){
