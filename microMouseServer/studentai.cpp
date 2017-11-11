@@ -178,7 +178,7 @@ void microMouseServer::studentAI() {
         mouseto1 = true;
     }
 
-/*
+
     //make everything around the mouse to 0 if it is -1 and if space is there
     //infront
     if(!isWallForward()){
@@ -199,7 +199,7 @@ void microMouseServer::studentAI() {
         }
     }
 
-*/
+
     printUI(std::to_string(Infront(-1)).c_str());
     //printUI(std::to_string(Right(-1)).c_str());
     //printUI(std::to_string(Left(-1)).c_str());
