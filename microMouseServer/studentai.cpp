@@ -28,6 +28,11 @@
  * void printUI(const char *mesg);
 */
 
+//Struct to find end
+typedef struct mazeNode{
+    int numWalls;
+    bool corner;
+} tmazeNode;
 
 //global variables
 int array1 [ARRAY_LENGTH][ARRAY_LENGTH];//a 20 by 20 array
@@ -36,7 +41,8 @@ int y = 0;//y position of the mouse
 bool Setarray = false;//to test to see if you have set all of the array to -1
 bool mouseto1 = false;//to see if you have set the bottom left corner to 1
 int orientation = FORWARD;//0=face left / 1=face forwards / 2=face right / 3=face back
-
+int wallindex = 0;
+struct mazeNode arrayNode[5];
 
 //these frunctions are used to help write less code
 int Infront (int newPos){
@@ -200,13 +206,16 @@ void microMouseServer::studentAI() {
     }
 
 
-    printUI(std::to_string(Infront(-1)).c_str());
+    //printUI(std::to_string(Infront(-1)).c_str());
     //printUI(std::to_string(Right(-1)).c_str());
     //printUI(std::to_string(Left(-1)).c_str());
 
 
     //Left Hand rule+right
-    if((!isWallLeft())&&((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
+    //    if((!isWallLeft())||((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
+    //    if((!isWallLeft())&&((Left(-1)<=Infront(-1))&&(Left(-1)<=Right(-1)))){//if space is left
+    if((!isWallLeft())&&(((Left(-1)<=Infront(-1))||(isWallForward()))&&((Left(-1)<=Right(-1))||(isWallRight())))){//if space is left
+        //    if((!isWallLeft())&&((Left(-1)<=Infront(-1))&&(Left(-1)<=Right(-1)))||(isWallForward()&&isWallRight()&&!isWallLeft())){//if space is left
         turnLeft();
         moveForward();
 
@@ -229,7 +238,8 @@ void microMouseServer::studentAI() {
     }
 
 
-    else if ((!isWallForward())&&((Infront(-1)<=Right(-1))||(Infront(-1)==0))){//if there is a space infront
+    else if ((!isWallForward())&&((Infront(-1)<=Right(-1))||(isWallRight()))){
+        //if ((!isWallForward())&&((Infront(-1)<=Right(-1) || isWallRight())||(Infront(-1)==0))){//if there is a space infront
         moveForward();
 
         if(::orientation == FORWARD){
@@ -294,7 +304,6 @@ void microMouseServer::studentAI() {
         }
     }
 
-
     //set the mouse to the position behind it. When the position behind the mouse is equal to the position the mouse is in set the position of the mouse to behind it plus one.
     if(!(array1[::x][::y] == Back(-1))){
         array1[::x][::y] = Back(-1);
@@ -303,7 +312,59 @@ void microMouseServer::studentAI() {
         array1[::x][::y] = Back(-1) + 1;
     }
 
-
     //Find the end of the maze.
-}
-//printUI(std::to_string().c_str());
+        //numWalls
+    int numWalls = 0;
+    if(isWallRight()){
+        numWalls ++;
+    }
+    if(isWallLeft()){
+        numWalls ++;
+    }
+    if(isWallForward()){
+        numWalls ++;
+    }
+    arrayNode[wallindex].numWalls = numWalls;
+
+        //find corner case
+    arrayNode[wallindex].corner = false;
+    if(numWalls==2 && ((!(isWallRight()&&isWallLeft())))){
+        arrayNode[wallindex].corner = true;
+    }
+
+    int index = wallindex;
+    wallindex++;
+
+    if(arrayNode[index].numWalls == 1 && arrayNode[index].corner == 0){
+        index++;
+        if(index > 5){
+            index=0;
+        }
+        if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
+            index++;
+            if(index > 5){
+                index=0;
+            }
+            if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
+                index++;
+                if(index > 5){
+                    index=0;
+                }
+                if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
+                    index++;
+                    if(index > 5){
+                        index=0;
+                    }
+                    if(arrayNode[index].numWalls == 1 && arrayNode[index].corner == 0){
+                        index++;
+                        if(index > 5){
+                            index=0;
+                        }
+                        foundFinish();
+                    }
+                }
+            }
+        }
+     }
+ }
+
