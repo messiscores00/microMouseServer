@@ -28,12 +28,6 @@
  * void printUI(const char *mesg);
 */
 
-//Struct to find end
-typedef struct mazeNode{
-    int numWalls;
-    bool corner;
-} tmazeNode;
-
 //global variables
 int array1 [ARRAY_LENGTH][ARRAY_LENGTH];//a 20 by 20 array
 int x = 0;//x position of the mouse
@@ -42,7 +36,20 @@ bool Setarray = false;//to test to see if you have set all of the array to -1
 bool mouseto1 = false;//to see if you have set the bottom left corner to 1
 int orientation = FORWARD;//0=face left / 1=face forwards / 2=face right / 3=face back
 int wallindex = 0;
-struct mazeNode arrayNode[5];
+bool isLinkedlistcreated = false;
+
+//linked list to test end
+struct node{
+    bool isLeft = false;
+    bool isRight = false;
+    bool isForward = false;
+    node* prev;
+    node* next;
+};
+
+node* A;
+node* h;
+node* t;
 
 //these frunctions are used to help write less code
 int Infront (int newPos){
@@ -311,60 +318,158 @@ void microMouseServer::studentAI() {
     else {
         array1[::x][::y] = Back(-1) + 1;
     }
-
     //Find the end of the maze.
-        //numWalls
-    int numWalls = 0;
-    if(isWallRight()){
-        numWalls ++;
+    if (isLinkedlistcreated == false){
+        A = new node;
+        t = A;
+        h = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A->next = h;
+        h->prev = A;
+        isLinkedlistcreated = true;
     }
-    if(isWallLeft()){
-        numWalls ++;
-    }
-    if(isWallForward()){
-        numWalls ++;
-    }
-    arrayNode[wallindex].numWalls = numWalls;
 
-        //find corner case
-    arrayNode[wallindex].corner = false;
-    if(numWalls==2 && ((!(isWallRight()&&isWallLeft())))){
-        arrayNode[wallindex].corner = true;
+    if (isWallLeft()==true){
+        h->prev->isLeft = true;
+    } else if (isWallLeft()==false){
+        h->prev->isLeft = false;
     }
 
-    int index = wallindex;
-    wallindex++;
+    if (isWallRight()==true){
+        h->prev->isRight = true;
+    } else if (isWallRight()==false){
+        h->prev->isRight = false;
+    }
 
-    if(arrayNode[index].numWalls == 1 && arrayNode[index].corner == 0){
-        index++;
-        if(index > 5){
-            index=0;
-        }
-        if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
-            index++;
-            if(index > 5){
-                index=0;
-            }
-            if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
-                index++;
-                if(index > 5){
-                    index=0;
-                }
-                if(arrayNode[index].numWalls == 2 && arrayNode[index].corner == 1){
-                    index++;
-                    if(index > 5){
-                        index=0;
-                    }
-                    if(arrayNode[index].numWalls == 1 && arrayNode[index].corner == 0){
-                        index++;
-                        if(index > 5){
-                            index=0;
+    if (isWallForward()==true){
+        h->prev->isForward = true;
+    } else if (isWallForward()==false){
+        h->prev->isForward = false;
+    }
+
+    if(h->isLeft == false){
+        if(h->isRight == false){
+            if(h->isForward == true){
+                h= h->next;
+                if(h->isLeft == true){
+                    if(h->isRight == false){
+                        if(h->isForward == true){
+                            h= h->next;
+                            if(h->isLeft == true){
+                                if(h->isRight == false){
+                                    if(h->isForward == true){
+                                        h= h->next;
+                                        if(h->isLeft == true){
+                                            if(h->isRight == false){
+                                                if(h->isForward == true){
+                                                    h= h->next;
+                                                    if(h->isLeft == true){
+                                                        if(h->isRight == false){
+                                                            if(h->isForward == false){
+                                                                foundFinish();
+                                                            }
+                                                        }
+                                                    }
+                                                    h = h->prev;
+                                                }
+                                            }
+                                        }
+                                        h = h->prev;
+                                    }
+                                }
+                            }
+                            h = h->prev;
                         }
-                        foundFinish();
                     }
                 }
+                h = h->prev;
             }
         }
-     }
- }
+    }
+
+    if(h->isLeft == true){
+        if(h->isRight == false){
+            if(h->isForward == false){
+                h= h->next;
+                if(h->isLeft == true){
+                    if(h->isRight == false){
+                        if(h->isForward == true){
+                            h= h->next;
+                            if(h->isLeft == true){
+                                if(h->isRight == false){
+                                    if(h->isForward == true){
+                                        h= h->next;
+                                        if(h->isLeft == true){
+                                            if(h->isRight == false){
+                                                if(h->isForward == true){
+                                                    h= h->next;
+                                                    if(h->isLeft == false){
+                                                        if(h->isRight == true){
+                                                            if(h->isForward == false){
+                                                                foundFinish();
+                                                            }else if(h->isForward == true){
+                                                                h = h->next;
+                                                            }
+                                                        }else if(h->isRight == false){
+                                                            h = h->next;
+                                                        }
+                                                    }else if(h->isLeft == true){
+                                                        h = h->next;
+                                                    }
+                                                    h = h->prev;
+                                                }else if(h->isForward == false){
+                                                    h = h->next;
+                                                }
+                                            }else if(h->isRight == true){
+                                                h = h->next;
+                                            }
+                                        }else if(h->isLeft == false){
+                                            h = h->next;
+                                        }
+                                        h = h->prev;
+                                    }else if(h->isForward == false){
+                                        h = h->next;
+                                    }
+                                }else if(h->isRight == true){
+                                    h = h->next;
+                                }
+                            }else if(h->isLeft == false){
+                                h = h->next;
+                            }
+                            h = h->prev;
+                        }else if(h->isForward == false){
+                            h = h->next;
+                        }
+                    }else if(h->isRight == true){
+                        h = h->next;
+                    }
+                }else if(h->isLeft == false){
+                    h = h->next;
+                }
+            }else if(h->isForward == true){
+                h = h->next;
+            }
+        }else if(h->isRight == true){
+            h = h->next;
+        }
+    } else if(h->isLeft == false){
+            h = h->next;
+        }
+
+}
 
