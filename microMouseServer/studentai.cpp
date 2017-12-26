@@ -192,6 +192,56 @@ void microMouseServer::studentAI() {
     }
 
 
+    //make linked list(once) tpo test the end
+    if (isLinkedlistcreated == false){
+        A = new node;
+        t = A;
+        h = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A = new node;
+        t->next = A;
+        A->prev = t;
+        t = A;
+        A->next = h;
+        h->prev = A;
+        isLinkedlistcreated = true;
+    }
+    //set linked list
+
+    h->prev->isLeft = isWallLeft();
+    h->prev->isRight = isWallRight();
+    h->prev->isForward = isWallForward();
+
+//    if (isWallLeft()==true){
+//        h->prev->isLeft = true;
+//    } else if (isWallLeft()==false){
+//        h->prev->isLeft = false;
+//    }
+
+//    if (isWallRight()==true){
+//        h->prev->isRight = true;
+//    } else if (isWallRight()==false){
+//        h->prev->isRight = false;
+//    }
+
+//    if (isWallForward()==true){
+//        h->prev->isForward = true;
+//    } else if (isWallForward()==false){
+//        h->prev->isForward = false;
+//    }
+
+
     //make everything around the mouse to 0 if it is -1 and if space is there
     //infront
     if(!isWallForward()){
@@ -213,16 +263,8 @@ void microMouseServer::studentAI() {
     }
 
 
-    //printUI(std::to_string(Infront(-1)).c_str());
-    //printUI(std::to_string(Right(-1)).c_str());
-    //printUI(std::to_string(Left(-1)).c_str());
-
-
     //Left Hand rule+right
-    //    if((!isWallLeft())||((Left(-1)<=Infront(-1)||Left(-1)==0)||(Left(-1)<=Right(-1)||Left(-1)==0))){//if space is left
-    //    if((!isWallLeft())&&((Left(-1)<=Infront(-1))&&(Left(-1)<=Right(-1)))){//if space is left
     if((!isWallLeft())&&(((Left(-1)<=Infront(-1))||(isWallForward()))&&((Left(-1)<=Right(-1))||(isWallRight())))){//if space is left
-        //    if((!isWallLeft())&&((Left(-1)<=Infront(-1))&&(Left(-1)<=Right(-1)))||(isWallForward()&&isWallRight()&&!isWallLeft())){//if space is left
         turnLeft();
         moveForward();
 
@@ -318,53 +360,13 @@ void microMouseServer::studentAI() {
     else {
         array1[::x][::y] = Back(-1) + 1;
     }
+
+
     //Find the end of the maze.
-    if (isLinkedlistcreated == false){
-        A = new node;
-        t = A;
-        h = A;
-        A = new node;
-        t->next = A;
-        A->prev = t;
-        t = A;
-        A = new node;
-        t->next = A;
-        A->prev = t;
-        t = A;
-        A = new node;
-        t->next = A;
-        A->prev = t;
-        t = A;
-        A = new node;
-        t->next = A;
-        A->prev = t;
-        t = A;
-        A->next = h;
-        h->prev = A;
-        isLinkedlistcreated = true;
-    }
-
-    if (isWallLeft()==true){
-        h->prev->isLeft = true;
-    } else if (isWallLeft()==false){
-        h->prev->isLeft = false;
-    }
-
-    if (isWallRight()==true){
-        h->prev->isRight = true;
-    } else if (isWallRight()==false){
-        h->prev->isRight = false;
-    }
-
-    if (isWallForward()==true){
-        h->prev->isForward = true;
-    } else if (isWallForward()==false){
-        h->prev->isForward = false;
-    }
-
-    if(h->isLeft == false){
+    //test end
+    if(h->isLeft == true){
         if(h->isRight == false){
-            if(h->isForward == true){
+            if(h->isForward == false){
                 h= h->next;
                 if(h->isLeft == true){
                     if(h->isRight == false){
@@ -378,9 +380,9 @@ void microMouseServer::studentAI() {
                                             if(h->isRight == false){
                                                 if(h->isForward == true){
                                                     h= h->next;
-                                                    if(h->isLeft == true){
+                                                    if(h->isLeft == false){
                                                         if(h->isRight == false){
-                                                            if(h->isForward == false){
+                                                            if(h->isForward == true){
                                                                 foundFinish();
                                                             }
                                                         }
@@ -402,8 +404,8 @@ void microMouseServer::studentAI() {
         }
     }
 
-    if(h->isLeft == true){
-        if(h->isRight == false){
+    if(h->isLeft == false){
+        if(h->isRight == true){
             if(h->isForward == false){
                 h= h->next;
                 if(h->isLeft == true){
@@ -418,58 +420,34 @@ void microMouseServer::studentAI() {
                                             if(h->isRight == false){
                                                 if(h->isForward == true){
                                                     h= h->next;
-                                                    if(h->isLeft == false){
-                                                        if(h->isRight == true){
+                                                    if(h->isLeft == true){
+                                                        if(h->isRight == false){
                                                             if(h->isForward == false){
                                                                 foundFinish();
-                                                            }else if(h->isForward == true){
-                                                                h = h->next;
                                                             }
-                                                        }else if(h->isRight == false){
-                                                            h = h->next;
                                                         }
-                                                    }else if(h->isLeft == true){
-                                                        h = h->next;
                                                     }
-                                                    h = h->prev;
-                                                }else if(h->isForward == false){
-                                                    h = h->next;
+                                                    h =h->prev;
                                                 }
-                                            }else if(h->isRight == true){
-                                                h = h->next;
                                             }
-                                        }else if(h->isLeft == false){
-                                            h = h->next;
                                         }
                                         h = h->prev;
-                                    }else if(h->isForward == false){
-                                        h = h->next;
+
                                     }
-                                }else if(h->isRight == true){
-                                    h = h->next;
                                 }
-                            }else if(h->isLeft == false){
-                                h = h->next;
                             }
                             h = h->prev;
-                        }else if(h->isForward == false){
-                            h = h->next;
-                        }
-                    }else if(h->isRight == true){
-                        h = h->next;
-                    }
-                }else if(h->isLeft == false){
-                    h = h->next;
-                }
-            }else if(h->isForward == true){
-                h = h->next;
-            }
-        }else if(h->isRight == true){
-            h = h->next;
-        }
-    } else if(h->isLeft == false){
-            h = h->next;
-        }
 
+                        }
+                    }
+                }
+                h = h->prev;
+            }
+
+        }
+    }
+    h = h->next;
 }
+
+
 
